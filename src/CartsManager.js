@@ -1,10 +1,15 @@
 import fs from "fs";
+import { fileURLToPath } from "url";
+import path from "path";
 
+const currentFilePath = fileURLToPath(import.meta.url);
+const currentDirPath = path.dirname(currentFilePath);
+const cartsFilePath = path.join(currentDirPath, "../data/carts/carts.js");
 export default class CartManager {
     constructor(products) {
         this.products = products;
         this.id = 1;
-        this.path = "../data/carts/carts.js";
+        this.path = cartsFilePath;
     }
     getCarts = async () => {
         if (fs.existsSync(this.path)) {
@@ -55,7 +60,6 @@ export default class CartManager {
             existingItem.quantity++;
             console.log("Product has been added");
         } else {
-            console.log(product);
             cart.products.push({ product, quantity: 1 });
             console.log("Product has been added");
         }

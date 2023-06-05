@@ -11,9 +11,9 @@ const PM = async () => {
     return products;
 };
 
-router.get("/", (req, res) => {
+router.get("/", async (req, res) => {
     let limit = parseInt(req.query.limit);
-    PM();
+    let products = await productManager.getProducts();
     if (limit > 0) {
         let newProd = products.slice(0, limit);
         res.send(newProd);
@@ -22,10 +22,9 @@ router.get("/", (req, res) => {
     }
 });
 
-router.get("/:pid", (req, res) => {
-    PM();
+router.get("/:pid", async (req, res) => {
+    let products = await productManager.getProducts();
     let productId = req.params.pid;
-    console.log("asd", productId);
     let usuario = products.find((u) => u.id === parseInt(productId));
     if (!usuario) return res.send("Usuario no encontrado");
     res.send(usuario);
@@ -60,7 +59,6 @@ router.put("/:pid", (req, res) => {
     const prodToUpdate= req.body;
     const fieldToUpdate = Object.keys(prodToUpdate)
     const valueForUpdate = Object.values(prodToUpdate).toString()
-    // console.log("updating", prodToUpdate, fieldToUpdate, valueForUpdate);
     productManager.updateProduct(prodID, fieldToUpdate, valueForUpdate)
 })
 

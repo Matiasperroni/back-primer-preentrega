@@ -1,4 +1,13 @@
 import fs from "fs";
+import { fileURLToPath } from "url";
+import path from "path";
+
+const currentFilePath = fileURLToPath(import.meta.url);
+const currentDirPath = path.dirname(currentFilePath);
+const productsFilePath = path.join(
+    currentDirPath,
+    "../data/products/products.js"
+);
 
 export default class ProductManager {
     constructor(
@@ -21,12 +30,13 @@ export default class ProductManager {
         this.status = status;
 
         this.id = 1;
-        this.path = "../data/products/products.js";
+        this.path = productsFilePath;
     }
     getProducts = async () => {
         if (fs.existsSync(this.path)) {
             const data = await fs.promises.readFile(this.path, "utf-8");
             const products = JSON.parse(data);
+
             return products;
         } else {
             return [];
@@ -58,10 +68,9 @@ export default class ProductManager {
         const existingProduct = products.find(
             (prod) => prod.code === product.code
         );
-        // console.log("soy existingproduct!!!!", product);
         if (existingProduct) {
             console.error("Este código ya existe");
-            return "Este codigo ya existe"
+            return "Este codigo ya existe";
         } else {
             if (
                 product.title === undefined ||
@@ -73,7 +82,7 @@ export default class ProductManager {
                 product.category === undefined
             ) {
                 console.error("Se deben completar todos los campos");
-                return "Se deben completar todos los campos"
+                return "Se deben completar todos los campos";
             } else {
                 const checkID = products[products.length - 1];
                 if (!checkID) {
@@ -110,21 +119,18 @@ export default class ProductManager {
         if (prodFound === undefined) {
             console.log("no existe un producto con ese id");
         } else {
-            console.log("soy el que devolvio id", prodFound);
             return prodFound;
         }
     };
     deleteProduct = async (id) => {
         const products = await this.getProducts();
         const prodIndex = products.findIndex((p) => p.id === id);
-        // console.log(" antes", products);
         if (prodIndex === -1) {
             console.error(
                 "No se pudo borrar el producto, no existe un producto con ese id"
             );
         } else {
             products.splice(prodIndex, 1);
-            // console.log(" despues", products);
         }
 
         await fs.promises.writeFile(
@@ -136,10 +142,9 @@ export default class ProductManager {
     updateProduct = async (id, campo, valor) => {
         const products = await this.getProducts();
         const prodIndex = products.findIndex((p) => p.id === id);
-        console.log(" antes", products);
         if (prodIndex === -1) {
             console.log("No existe un producto con ese id");
-            return "No existe un producto con ese id"
+            return "No existe un producto con ese id";
         }
 
         products[prodIndex][campo] = valor;
