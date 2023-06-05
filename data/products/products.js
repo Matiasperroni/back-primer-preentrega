@@ -31,5 +31,16 @@
 		"category": "vehiculos",
 		"status": true,
 		"id": 3
+	},
+	{
+		"title": "triciclo",
+		"description": " soy un triciclo",
+		"price": 20,
+		"thumbnail": "soy una img",
+		"code": "lol",
+		"stock": 10,
+		"category": "vehiculos",
+		"status": true,
+		"id": 4
 	}
 ]
