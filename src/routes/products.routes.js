@@ -5,11 +5,6 @@ const router = Router();
 
 const productManager = new ProductManager();
 let products = [];
-const PM = async () => {
-    let productsPM = await productManager.getProducts();
-    products = productsPM;
-    return products;
-};
 
 router.get("/", async (req, res) => {
     let limit = parseInt(req.query.limit);
